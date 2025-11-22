@@ -17,12 +17,16 @@ def main():
     target = os.path.abspath(target)
     root = os.getcwd()
     target_dir = os.path.dirname(target)
+    # Setup paths so imports work correctly in the target script
     sys.path.insert(0, target_dir)
 
 
+    # Start tracing, run the script, then stop
     start_trace(root)
     runpy.run_path(target, run_name="__main__")
     stop_trace()
+    
+    # Display the analysis
     show_results()
 
     return 0

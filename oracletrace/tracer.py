@@ -13,19 +13,24 @@ _func_time = defaultdict(float)
 _call_map = defaultdict(lambda: defaultdict(int))
 
 def _is_user_code(filename):
+    # Filter out files not in the project root
     if not filename.startswith(_root_path):
         return False
+    # Filter out third-party libraries
     if "site-packages" in filename or "dist-packages" in filename:
         return False
     return True
 
 def _get_key(frame):
     co_filename = frame.f_code.co_filename
+    # Ignore internal python frames (e.g. <string>)
     if co_filename.startswith("<"):
         return None
     filename = os.path.abspath(co_filename)
+    # Check if the file belongs to the user's project
     if not _is_user_code(filename):
         return None
+    # Create a relative path key for readability
     rel_path = os.path.relpath(filename, _root_path)
     return f"{rel_path}:{frame.f_code.co_name}"
 
@@ -47,18 +52,22 @@ def _trace(frame, event, arg):
         if not _call_stack:
             return
         
+        # Optimization: check if the returning frame is at the top of the stack
         if id(frame) == _call_stack[-1][0]:
             _, key, start = _call_stack.pop()
             _func_time[key] += time.perf_counter() - start
         else:
+            # Stack unwinding (handle exceptions or missed returns)
             fid = id(frame)
             found = False
+            # Search for the frame in the stack from top to bottom
             for i in range(len(_call_stack) - 1, -1, -1):
                 if _call_stack[i][0] == fid:
                     found = True
                     break
             
             if found:
+                # Pop everything until we find the matching frame
                 while _call_stack:
                     top_fid, key, start = _call_stack.pop()
                     _func_time[key] += time.perf_counter() - start
@@ -67,17 +76,20 @@ def _trace(frame, event, arg):
 
 def start_trace(root_dir):
     global _enabled, _root_path, _call_stack, _func_calls, _func_time, _call_map
+    # Initialize global state
     _root_path = os.path.abspath(root_dir)
     _call_stack = []
     _func_calls = defaultdict(int)
     _func_time = defaultdict(float)
     _call_map = defaultdict(lambda: defaultdict(int))
     _enabled = True
+    # Register the trace function with the system
     sys.setprofile(_trace)
 
 def stop_trace():
     global _enabled
     _enabled = False
+    # Disable the trace function
     sys.setprofile(None)
 
 def show_results():
@@ -89,12 +101,15 @@ def show_results():
     
     tree = Tree("[bold yellow]<module>[/]")
     
+    # Recursively build the execution tree
     def add_nodes(parent_node, parent_key, current_path):
         children = _call_map.get(parent_key, {})
+        # Sort children by total execution time
         sorted_children = sorted(children.items(), key=lambda x: _func_time[x[0]], reverse=True)
         
         for child_key, count in sorted_children:
             total_time = _func_time[child_key]
+            # Detect recursion to prevent infinite loops in the tree
             if child_key in current_path:
                 parent_node.add(f"[red]↻ {child_key}[/] ({count}x)")
                 continue
