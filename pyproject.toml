@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "oracletrace"
+version = "0.1.0"
+description = "Simple logic path tracer"
+authors = [{ name = "Kayk Caputo" }, { name = "André Gustavo" }]
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = ["rich"]
+
+[project.scripts]
+oracletrace = "oracletrace.cli:main"
