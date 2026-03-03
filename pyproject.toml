@@ -1,15 +1,39 @@
-[build-system]
-requires = ["setuptools>=61", "wheel"]
-build-backend = "setuptools.build_meta"
-
 [project]
 name = "oracletrace"
-version = "0.2.0"
-description = "Simple logic path tracer"
-authors = [{ name = "Kayk Caputo" }, { name = "André Gustavo" }]
+version = "1.0.0"
+description = "Detect Python performance regressions and compare execution traces with lightweight call graph visualization"
+authors = [
+    { name = "Kayk Caputo" },
+    { name = "André Gustavo" }
+]
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = ["rich"]
 
-[project.scripts]
-oracletrace = "oracletrace.cli:main"
+keywords = [
+    "python profiler",
+    "performance regression",
+    "execution trace",
+    "call graph",
+    "performance comparison",
+    "benchmark comparison",
+    "trace analyzer",
+    "python performance tool",
+    "ci performance testing",
+    "lightweight profiler"
+]
+
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Education",
+    "Intended Audience :: Science/Research",
+    "Topic :: Software Development :: Debuggers",
+    "Topic :: Software Development :: Testing",
+    "Topic :: Software Development :: Profiling",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent"
+]

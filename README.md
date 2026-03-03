@@ -1,23 +1,73 @@
 # OracleTrace
 
-**OracleTrace** is a simple logic path tracer for Python applications. It visualizes the execution flow of your code, helping you understand function calls and performance bottlenecks.
+> Detect Python performance regressions and compare execution traces with a lightweight call graph profiler.
 
-[![PyPI](https://img.shields.io/pypi/v/oracletrace?label=PyPI)](https://pypi.org/project/oracletrace) [![PyPI Downloads](https://static.pepy.tech/personalized-badge/oracletrace?period=total&units=INTERNATIONAL_SYSTEM&left_color=BLACK&right_color=GREEN&left_text=downloads)](https://pepy.tech/projects/oracletrace)
+**OracleTrace** is a lightweight Python performance analysis tool designed to help developers detect performance regressions, compare execution traces, and visualize call graphs in a simple and readable way.
 
-**GitHub:** https://github.com/KaykCaputo/oracletrace
+It is ideal for:
 
-## Features
+* Detecting performance regressions between script versions
+* Comparing execution time across runs
+* Visualizing function call graphs
+* Lightweight profiling without heavy instrumentation
+* CI performance validation
 
-- **Performance Summary Table:** Visualize the most time-consuming functions with a clean table showing total time and average time per call.
-- **Logic Flow Visualization**: See a tree structure of function calls.
-- **Performance Metrics**: View execution time and call counts for each function.
-- **Clean Output**: Filters out internal Python calls for better readability.
-- **JSON Export:** Save trace results to a JSON file for further analysis or record keeping.
-- **Trace Comparison:** Compare two trace JSON files to see performance changes, new or removed functions, and time differences.
+[![PyPI](https://img.shields.io/pypi/v/oracletrace?label=PyPI)](https://pypi.org/project/oracletrace)
 
-## How It Works
+---
 
-OracleTrace uses Python's built-in `sys.setprofile()` function to intercept function call events (`call`, `return`). It measures the time spent inside each function and records the caller-callee relationships. By tracking the file path of each function, it can filter out calls that are not part of your local project directory, resulting in a clean and relevant report.
+## Why OracleTrace?
+
+Performance regressions in Python projects are often hard to detect early.
+
+Traditional profilers focus on deep performance analysis, but they are not optimized for quick regression comparison between two executions.
+
+OracleTrace solves this by allowing you to:
+
+* Run a script and generate an execution trace
+* Export results to JSON
+* Compare two trace files
+* Identify performance differences
+* Detect new or removed functions
+* Measure execution time deltas
+
+---
+
+## Key Features
+
+### Performance Regression Detection
+
+Compare two JSON trace files and instantly see:
+
+* Slower functions
+* Faster functions
+* New function calls
+* Removed function calls
+
+### Execution Trace Analysis
+
+* Total execution time per function
+* Average time per call
+* Call counts
+* Caller → callee relationships
+
+### Call Graph Visualization
+
+Visual tree structure of your program’s execution flow.
+
+### JSON Export
+
+Export trace results for:
+
+* CI performance checks
+* Historical comparison
+* Automation pipelines
+
+### Clean Output
+
+Filters internal Python calls to focus only on your project code.
+
+---
 
 ## Installation
 
@@ -25,61 +75,70 @@ OracleTrace uses Python's built-in `sys.setprofile()` function to intercept func
 pip install oracletrace
 ```
 
-## Quick Start
+---
 
-1.  **Create a Python script.** For example, save the following as `my_app.py`:
+## Quick Example
 
-    ```python
-    # my_app.py
-    import time
+### Step 1 — Create a script
 
-    def process_data():
-        print("  > Processing data...")
-        time.sleep(0.1)
-        calculate_results()
+```python
+import time
 
-    def calculate_results():
-        print("    > Calculating results...")
-        time.sleep(0.2)
+def process_data():
+    time.sleep(0.1)
+    calculate_results()
 
-    def main():
-        print("Starting application...")
-        for i in range(2):
-            print(f"\nIteration {i+1}:")
-            process_data()
-        print("\nApplication finished.")
+def calculate_results():
+    time.sleep(0.2)
 
-    if __name__ == "__main__":
-        main()
-    ```
+def main():
+    for _ in range(2):
+        process_data()
 
-2.  **Run `oracletrace` from your terminal:**
+if __name__ == "__main__":
+    main()
+```
 
-    ```bash
-    oracletrace your_script.py
-    ```
+### Step 2 — Run OracleTrace
 
-    Or run it as a module:
+```bash
+oracletrace my_app.py
+```
 
-    ```bash
-    python -m oracletrace.cli your_script.py
-    ```
+### Export trace to JSON
 
-    To export the trace result to a JSON file:
+```bash
+oracletrace my_app.py --json baseline.json
+```
 
-    ```bash
-    oracletrace your_script.py --json result.json
-    ```
+### Compare with a new version
 
-    To compare two trace results:
+```bash
+oracletrace my_app.py --json new.json --compare baseline.json
+```
 
-    ```bash
-    oracletrace your_script.py --json new_run.json --compare old_run.json
-    ```
+This allows you to detect performance regressions between two executions.
+
+---
+
+## How It Works
+
+OracleTrace uses Python’s built-in `sys.setprofile()` function to intercept:
+
+* `call`
+* `return`
+
+It measures execution time per function and records caller-callee relationships.
+
+By filtering functions outside your project directory, the output focuses only on relevant application code.
+
+---
 
 ## Example Output
 
-Running the command above will execute your script and then generate a report like this:
+Summary table showing top functions by total execution time and average time per call.
+
+Call graph visualization displaying execution flow hierarchy.
 
 ```
 Starting application...
@@ -112,11 +171,27 @@ Logic Flow:
         └── my_app.py:calculate_results (2x, 0.4015s)
 ```
 
+---
+
+## Use Cases
+
+* Detect Python performance regressions in development
+* Compare execution time between versions
+* Lightweight alternative to heavy profilers
+* CI/CD performance monitoring
+* Educational demonstration of call graphs
+
+---
+
 ## Requirements
 
-- Python >= 3.10
-- [rich](https://github.com/Textualize/rich)
+* Python >= 3.10
+* rich
+
+---
 
 ## Contributing
 
-Contributions are welcome! If you find a bug, have a suggestion for a new feature, or want to improve the code, please feel free to open an issue or submit a pull request. All feedback and contributions are highly appreciated.
+Contributions are welcome.
+
+If you have ideas for improving regression detection, trace comparison, or visualization features, feel free to open an issue or submit a pull request.
