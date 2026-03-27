@@ -1,4 +1,4 @@
-# OracleTrace
+# OracleTrace — Python Performance Profiler
 > Detect Python performance regressions and compare execution traces with a lightweight call graph profiler.
 <table><tr>
 <td><img src="https://raw.githubusercontent.com/KaykCaputo/oracletrace/master/oracletracecat.png" alt="OracleTrace Logo"/></td>
