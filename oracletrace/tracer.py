@@ -8,7 +8,7 @@ from rich import print
 
 
 class Tracer:
-    def __init__(self, root_dir):
+    def __init__(self, root_dir, ignore_patterns = None):
         self._root_path = os.path.abspath(root_dir)
         self._call_stack = []
         self._func_calls = defaultdict(int)
@@ -17,7 +17,8 @@ class Tracer:
         self._original_profile_func = None
         self._enabled = False
         self._start_time = 0.0          
-        self._total_time = 0.0   
+        self._total_time = 0.0
+        self._ignore_patterns = ignore_patterns
 
 
     def start(self):
@@ -26,13 +27,23 @@ class Tracer:
         self._start_time = time.perf_counter()          
         self._original_profile_func = sys.getprofile()
         sys.setprofile(self._trace)
-    
+
     def stop(self):
         # Stops Tracer
         self._enabled = False
         self._total_time = time.perf_counter() - self._start_time  
         sys.setprofile(self._original_profile_func)
 
+    def _is_ignored(self, filename):
+        # Return true if the filename should be ignored
+        if not self._ignore_patterns:
+            return False
+
+        for pattern in self._ignore_patterns:
+            if pattern.search(filename):
+                return True
+
+        return False
 
     def _is_user_code(self, filename):
         # Filter out files not in the project root
@@ -54,7 +65,13 @@ class Tracer:
             return None
         # Create a relative path key for readability
         rel_path = os.path.relpath(filename, self._root_path)
-        return f"{rel_path}:{frame.f_code.co_name}"
+        key = f"{rel_path}:{frame.f_code.co_name}"
+
+        # Check if the file should be ignored based on inputted ignoring pattern
+        if self._is_ignored(key):
+            return None
+
+        return key
 
     def _trace(self, frame, event, arg):
         try:
