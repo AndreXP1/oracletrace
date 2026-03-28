@@ -208,6 +208,12 @@ If you have ideas for improving regression detection, trace comparison, or visua
 
 ---
 
+## Recognition
+
+- Included in [awesome-debugger](https://github.com/taowen/awesome-debugger)
+
+---
+
 ## ⭐ Support the Project
 
 If you find OracleTrace useful, give it a ⭐ on GitHub:
