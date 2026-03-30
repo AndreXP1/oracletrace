@@ -24,6 +24,7 @@ It is ideal for:
 Documentation: https://kaykcaputo.github.io/oracletrace/
 
 ---
+### See OracleTrace in action:
 ![OracleTrace CLI demo](https://raw.githubusercontent.com/KaykCaputo/oracletrace/master/oracletrace-cli-demo.gif)
 ---
 ## Why OracleTrace?
@@ -205,6 +206,16 @@ Logic Flow:
 Contributions are welcome.
 
 If you have ideas for improving regression detection, trace comparison, or visualization features, feel free to open an issue or submit a pull request.
+
+---
+
+## Contributors
+
+Thanks to all the people who have contributed to this project:
+
+<a href="https://github.com/KaykCaputo/oracletrace/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=KaykCaputo/oracletrace" />
+</a>
 
 ---
 
