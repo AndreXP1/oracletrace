@@ -233,3 +233,7 @@ If you find OracleTrace useful, give it a ⭐ on GitHub:
 👉 https://github.com/KaykCaputo/oracletrace
 
 Your support helps improve the project and makes it more visible to others.
+
+---
+
+Maintained by [Kayk Caputo](https://github.com/KaykCaputo) and [André Gustavo](https://github.com/AndreXP1)
