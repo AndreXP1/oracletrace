@@ -42,8 +42,6 @@ oracletrace app.py --json baseline.json
 oracletrace app.py --json new.json --compare baseline.json
 ```
 
-Add it to your CI to automatically fail on performance regressions.
-
 ---
 
 ## See it in action
@@ -114,7 +112,7 @@ Fail your pipeline when performance degrades:
 ```bash
 oracletrace app.py --json current.json --compare baseline.json --fail-on-regression --threshold 25
 ```
-
+Add it to your CI to automatically fail on performance regressions.
 ---
 
 ## Key Features
