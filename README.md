@@ -6,9 +6,11 @@
 <td><img src="https://raw.githubusercontent.com/KaykCaputo/oracletrace/master/oracletracecat.png" alt="OracleTrace Logo" width="185"/></td>
 <td>
 
-**Run your script twice. See exactly what got slower.**
+**Fail your CI when performance regresses.**
 
-OracleTrace works like a **git diff for performance**.
+OracleTrace is a **git diff for performance.**
+
+**Run your script twice and instantly see what got slower — with function-level precision.**
 
 </td>
 </tr></table>
